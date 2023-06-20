@@ -2,7 +2,6 @@ import Form from "./components/Form"
 import Header from "./components/Header"
 import PacientsForm from "./components/PacientsForm"
 
-
 function App() {
 
   return (

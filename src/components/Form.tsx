@@ -1,5 +1,19 @@
+import { useState, useEffect } from 'react'
 
 const Form = () => {
+  const [name, setName]   = useState('');
+  const [owner, setOwner] = useState('');
+  const [email, setEmail] = useState('');
+  const [date, setDate]   = useState('');
+  const [symptoms, setSymptoms] = useState('');
+  
+  
+  const handleSubmit  = (e : React.FormEvent<HTMLFormElement>) : void =>   {
+    e.preventDefault();
+    console.log('Sending form');
+    
+  }
+  
   return (
     <div className="md:w-1/2 lg:w-2/5">
       <h2 className="font-black text-3xl text-center">Pacients Monitoring</h2>
@@ -9,14 +23,21 @@ const Form = () => {
       </p>
 
 
-      <form action="" className=" bg-white shadow-md rounded-lg py-8 px-5">
+      <form 
+      className=" bg-white shadow-md rounded-lg py-8 px-5"
+      onSubmit={handleSubmit}
+      >
         <div className="mb-5">
             <label  htmlFor="pet" className="block text-gray-700 uppercase font-bold" > Pet's Name </label>
 
             <input  className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-lg" 
                     type="text"
                     name="" id="pet" 
-                    placeholder=" Pet's Name" />
+                    placeholder=" Pet's Name" 
+                    value={name}
+                    onChange= {(e)=> setName(e.target.value)}
+                    
+            />
         </div>
 
         <div className="mb-5">
