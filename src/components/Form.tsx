@@ -1,24 +1,57 @@
 import { useState, useEffect } from 'react'
+import Error from "./Error"
 
-const Form = () => {
+
+
+const Form = ({patients, setPatients}) => {
   const [name, setName]   = useState('');
   const [owner, setOwner] = useState('');
   const [email, setEmail] = useState('');
   const [date, setDate]   = useState('');
   const [symptoms, setSymptoms] = useState('');
+  const [error, setError] = useState(false)
   
-  
-  const handleSubmit  = (e : React.FormEvent<HTMLFormElement>) : void =>   {
+  const generateId = () =>{
+    const number   = Math.random().toString(36).substring(2);
+    const letters  = Date.now().toString(36) 
+    return letters + number;
+  }
+
+
+  const handleSubmit  = (e) : void =>   {
     e.preventDefault();
-    console.log('Sending form');
-    
+
+    //Form validation
+    if([name, owner, email ,date, symptoms].includes('')){
+      console.log('There is an empty space');
+      setError(true);
+      return
+    }
+ 
+
+    const patient = {
+      id : generateId(),
+      name,
+      owner,
+      email,
+      date,
+      symptoms,
+    };
+
+    setPatients([...patients, patient])
+
+    setName('');
+    setOwner('');
+    setEmail('')
+    setDate('')
+    setSymptoms('')
   }
   
   return (
-    <div className="md:w-1/2 lg:w-2/5">
-      <h2 className="font-black text-3xl text-center">Pacients Monitoring</h2>
+    <div className="md:w-1/2 lg:w-2/5 mx-5 ml-5 my-5">
+      <h2 className="font-black text-3xl text-center">Patients Monitoring</h2>
       <p className="text-lg mt-5 text-center mb-10">
-        Add pacients and {''}
+        Add patients and {''}
         <span className="text-indigo-600 font-bold ">Manage</span>
       </p>
 
@@ -27,6 +60,7 @@ const Form = () => {
       className=" bg-white shadow-md rounded-lg py-8 px-5"
       onSubmit={handleSubmit}
       >
+        {error && <Error  message={"You must fill in all the blanks"}/> }
         <div className="mb-5">
             <label  htmlFor="pet" className="block text-gray-700 uppercase font-bold" > Pet's Name </label>
 
@@ -46,7 +80,10 @@ const Form = () => {
             <input  className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-lg" 
                     type="text"
                     name="" id="owner" 
-                    placeholder=" Owner's Name" />
+                    placeholder=" Owner's Name" 
+                    value={owner}
+                    onChange= {(e)=> setOwner(e.target.value)}
+            />
         </div>
 
         <div className="mb-5">
@@ -55,7 +92,10 @@ const Form = () => {
             <input  className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-lg" 
                     type="text"
                     name="" id="email" 
-                    placeholder="Contact Email" />
+                    placeholder="Contact Email" 
+                    value={email}
+                    onChange= {(e)=> setEmail(e.target.value)}
+            />
         </div>
 
 
@@ -64,7 +104,10 @@ const Form = () => {
 
             <input  className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-lg" 
                     type="date"
-                    name="" id="date"/>
+                    name="" id="date"
+                    value={date}
+                    onChange= {(e)=> setDate(e.target.value)}
+            />
         </div>
 
 
@@ -74,7 +117,10 @@ const Form = () => {
             <textarea 
                 className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-lg"
                 id="symptoms"
-                placeholder="Enter the Symptoms">
+                placeholder="Enter the Symptoms"
+                value={symptoms}
+                onChange= {(e)=> setSymptoms(e.target.value)}
+                >
             </textarea>
         </div>
 
