@@ -3,7 +3,7 @@ import Error from "./Error"
 
 
 
-const Form = ({patients, setPatients}) => {
+const Form = ({patients, setPatients, patient}) => {
   const [name, setName]   = useState('');
   const [owner, setOwner] = useState('');
   const [email, setEmail] = useState('');
@@ -11,6 +11,16 @@ const Form = ({patients, setPatients}) => {
   const [symptoms, setSymptoms] = useState('');
   const [error, setError] = useState(false)
   
+  useEffect(() => {
+    if(Object.keys(patient).length > 0){
+      setName (patient.name);
+      setOwner(patient.owner);
+      setEmail(patient.email)
+      setDate (patient.date)
+      setSymptoms(patient.symptoms)
+    }
+  },[patient])
+
   const generateId = () =>{
     const number   = Math.random().toString(36).substring(2);
     const letters  = Date.now().toString(36) 
@@ -18,7 +28,7 @@ const Form = ({patients, setPatients}) => {
   }
 
 
-  const handleSubmit  = (e) : void =>   {
+  const handleSubmit  = (e) : void =>  {
     e.preventDefault();
 
     //Form validation
@@ -29,8 +39,10 @@ const Form = ({patients, setPatients}) => {
     }
  
 
-    const patient = {
-      id : generateId(),
+
+
+    const objectPatient = {
+      id: '',
       name,
       owner,
       email,
@@ -38,8 +50,27 @@ const Form = ({patients, setPatients}) => {
       symptoms,
     };
 
-    setPatients([...patients, patient])
 
+    if(patient.id){
+      // Edit patient
+    
+      
+    }else{
+
+      // Add patient
+      
+      
+      objectPatient.id = generateId();
+      setPatients([...patients, objectPatient])
+    }
+
+
+    
+
+
+
+
+    // Reset Form
     setName('');
     setOwner('');
     setEmail('')
@@ -131,7 +162,7 @@ const Form = ({patients, setPatients}) => {
                 type="submit"
                 className="bg-indigo-600 w-full text-white rounded-lg  uppercase font-bold p-2 
                             hover:bg-indigo-700 cursor-pointer transition-all"
-                value="Add Patient">
+                value={(patient.id ) ? 'Edit Patient' : 'Create Patient'}>
             </input>
         </div>
         
