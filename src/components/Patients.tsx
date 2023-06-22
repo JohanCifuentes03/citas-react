@@ -1,11 +1,38 @@
-const Patients = ({patient, setPatient}) => {
+import { useState } from "react";
+import Modal from "./Modal";
 
-    const {name, owner, email, date, symptoms} = patient;
+const Patients = ({patient, setPatient, deletePatient}) => {
 
+    const {name, owner, email, date, symptoms, id} = patient;
+    const [showModal, setShowModal] = useState(false)
+
+    const deleteHandle = () =>{
+        setShowModal(true)
+    }
+
+    const confirmDelete = () =>{
+        deletePatient(id)
+        setShowModal(false)
+    }
+
+    const cancelDelete = () =>{
+        setShowModal(false)
+    }
 
     return (
     
         <div className=" m-3 p-3 bg-white shadow-md rounded-xl">
+
+            
+            <Modal isOpen={showModal} onClose={cancelDelete}>
+                {/* Contenido de la ventana emergente */}
+                
+                <p className="uppercase ">Do you want to delete the patient?</p>
+                
+                <button  className="mt-4 px-6 py-2 bg-red-600 text-white rounded-md mx-3" onClick={confirmDelete}>Yes</button>
+                <button  className="mt-4 px-6 py-2 bg-gray-600 text-white rounded-md mx-4" onClick={cancelDelete}>No</button>
+                
+            </Modal>
             <p className="font-bold mb-3 text-gray-700 uppercase ">Name:  {''}
                 <span className="font-normal normal-case">{name}</span>
             </p>
@@ -41,6 +68,7 @@ const Patients = ({patient, setPatient}) => {
                 type="button"
                 className="py-2 px-10 bg-red-500 hover:bg-red-800 rounded-md
                            text-white font-bold transition-all"
+                onClick={deleteHandle}
                 >Delete</button>
             </div>
 

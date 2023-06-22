@@ -2,7 +2,7 @@ import Patients from './Patients';
 
 
 
-const PatientsForm = ({patients, setPatient}) => {
+const PatientsForm = ({patients, setPatient, deletePatient}) => {
 
   return (
     <div className="md:w-1/2  lg:w-3/5 md:h-screen overflow-y-scroll my-5">
@@ -39,6 +39,7 @@ const PatientsForm = ({patients, setPatient}) => {
             key={patient.id}
             patient={patient}
             setPatient={setPatient}
+            deletePatient={deletePatient}
           />
         )}
   

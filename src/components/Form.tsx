@@ -3,7 +3,7 @@ import Error from "./Error"
 
 
 
-const Form = ({patients, setPatients, patient}) => {
+const Form = ({patients, setPatients, patient, setPatient }) => {
   const [name, setName]   = useState('');
   const [owner, setOwner] = useState('');
   const [email, setEmail] = useState('');
@@ -33,15 +33,14 @@ const Form = ({patients, setPatients, patient}) => {
 
     //Form validation
     if([name, owner, email ,date, symptoms].includes('')){
-      console.log('There is an empty space');
       setError(true);
       return
     }
  
 
-
-
     const objectPatient = {
+
+
       id: '',
       name,
       owner,
@@ -53,24 +52,26 @@ const Form = ({patients, setPatients, patient}) => {
 
     if(patient.id){
       // Edit patient
-    
-      
+      objectPatient.id = patient.id;
+  
+      const updatedPatients = patients.map( 
+        patienteState => patienteState.id ===
+        patient.id ? objectPatient : patienteState);
+
+      setPatients(updatedPatients);
+      setPatient({});
+
     }else{
 
       // Add patient
-      
-      
       objectPatient.id = generateId();
       setPatients([...patients, objectPatient])
     }
 
 
-    
-
-
-
-
     // Reset Form
+
+
     setName('');
     setOwner('');
     setEmail('')
